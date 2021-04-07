@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-<?php include("includes/head.php") ?> 
-</head>
-<body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
-<?php include("includes/header.php") ?>
-
-  <?php include("includes/sidebar.php") ?>
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <?php 
+      $id_user = $_GET['data'];
+      // get profil
+      $sql = "SELECT `nama`, `email`, `foto`, `level`,`username`, `id_user` FROM `user` WHERE `id_user` = '$id_user'";
+      $query = mysqli_query($koneksi, $sql);
+      while($data = mysqli_fetch_row($query)){
+        $name = $data[0];
+        $email = $data[1];
+        $foto = $data[2];
+        $level = $data[3];
+        $username = $data[4];
+      }
+  ?>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -19,8 +20,8 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="user.php">Data User</a></li>
+              <li class="breadcrumb-item"><a href="index.php?include=user">Home</a></li>
+              <li class="breadcrumb-item"><a href="index.php?include=user">Data User</a></li>
               <li class="breadcrumb-item active">Detail Data User</li>
             </ol>
           </div>
@@ -33,7 +34,7 @@
             <div class="card">
               <div class="card-header">
                 <div class="card-tools">
-                  <a href="user.php" class="btn btn-sm btn-warning float-right">
+                  <a href="index.php?include=user" class="btn btn-sm btn-warning float-right">
                   <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
                 </div>
               </div>
@@ -46,23 +47,23 @@
                       </tr>                      
                       <tr>
                         <td><strong>Foto User<strong></td>
-                        <td><img src="foto/salnan.jpg" class="img-fluid" width="200px;"></td>
+                        <td><img src="foto/<?php echo $foto; ?>" class="img-fluid" width="200px;"></td>
                       </tr>               
                       <tr>
                         <td width="20%"><strong>Nama<strong></td>
-                        <td width="80%">Salna Ratih</td>
+                        <td width="80%"><?php echo $name; ?></td>
                       </tr>                 
                       <tr>
                         <td width="20%"><strong>Email<strong></td>
-                        <td width="80%">salnanratih88@gmail.com</td>
+                        <td width="80%"><?php echo $email; ?></td>
                       </tr>
                       <tr>
                         <td width="20%"><strong>Level<strong></td>
-                        <td width="80%">Superadmin</td>
+                        <td width="80%"><?php echo $level; ?></td>
                       </tr>                 
                       <tr>
                         <td width="20%"><strong>Username<strong></td>
-                        <td width="80%">salnan</td>
+                        <td width="80%"><?php echo $username; ?></td>
                       </tr> 
                     </tbody>
                   </table>  
@@ -74,13 +75,3 @@
 
     </section>
     <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <?php include("includes/footer.php") ?>
-
-</div>
-<!-- ./wrapper -->
-
-<?php include("includes/script.php") ?>
-</body>
-</html>

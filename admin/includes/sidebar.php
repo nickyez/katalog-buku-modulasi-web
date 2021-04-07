@@ -14,7 +14,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
-            <a href="profil.php" class="nav-link">
+            <a href="index.php?include=profil" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 Profil
@@ -31,25 +31,25 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="kategoribuku.php" class="nav-link">
+                <a href="index.php?include=kategori-buku" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kategori Buku</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="tag.php" class="nav-link">
+                <a href="index.php?include=tag" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Tag</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="penerbit.php" class="nav-link">
+                <a href="index.php?include=penerbit" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Penerbit</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="kategoriblog.php" class="nav-link">
+                <a href="index.php?include=kategori-blog" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Kategori Blog</p>
                 </a>
@@ -57,7 +57,7 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="konten.php" class="nav-link">
+            <a href="index.php?include=konten" class="nav-link">
               <i class="nav-icon fas fa-file-alt"></i>
               <p>
                 Konten
@@ -65,7 +65,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="buku.php" class="nav-link">
+            <a href="index.php?include=buku" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Buku
@@ -73,7 +73,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="blog.php" class="nav-link">
+            <a href="index.php?include=blog" class="nav-link">
               <i class="nav-icon fab fa-blogger"></i>
               <p>
                 Blog
@@ -81,7 +81,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="user.php" class="nav-link">
+            <a href="index.php?include=user" class="nav-link">
               <i class="nav-icon fas fa-user-cog"></i>
               <p>
                 Pengaturan User
@@ -89,7 +89,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="ubahpassword.php" class="nav-link">
+            <a href="index.php?include=ubah-password" class="nav-link">
               <i class="nav-icon fas fa-user-lock"></i>
               <p>
                 Ubah Password
@@ -97,7 +97,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="signout.php" class="nav-link">
+            <a href="index.php?include=signout" class="nav-link">
               <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>
                 Sign Out
