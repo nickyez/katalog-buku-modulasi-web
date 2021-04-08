@@ -28,7 +28,7 @@
     <div class="card">
         <div class="card-header">
             <div class="card-tools">
-                <a href="editprofil.php" class="btn btn-sm btn-info float-right"><i class="fas fa-edit"></i>
+                <a href="index.php?include=edit-profil" class="btn btn-sm btn-info float-right"><i class="fas fa-edit"></i>
                     Edit Profil</a>
             </div>
         </div>

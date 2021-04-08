@@ -12,6 +12,8 @@
         include("include/konfirmasilogin.php");
       }else if($include=="signout"){
         include("include/signout.php"); 
+      }else if($include=="konfirmasi-edit-profil"){
+        include("include/konfirmasieditprofil.php"); 
       }else if($include=="konfirmasi-tambah-kategori-buku"){
         include("include/konfirmasitambahkategoribuku.php");
       }else if($include=="konfirmasi-edit-kategori-buku"){
@@ -49,6 +51,7 @@
 <?php 
     if(isset($_GET['include'])){
       $include = $_GET['include'];
+      include('includes/cariunset.php');
       if(isset($_SESSION['id_user'])){?>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -115,6 +118,8 @@
             include("include/ubahpassword.php");
           }elseif($include=='signout'){
             include("include/signout.php");
+          }elseif($include=='edit-profil'){
+            include("include/editprofil.php");
           }else{
             include("include/profil.php");
           } ?>
