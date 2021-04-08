@@ -83,10 +83,16 @@
                                         $halaman = $_GET['halaman'];
                                         $posisi = ($halaman-1) * $batas;
                                     }                      
+                                    if(isset($_POST['katakunci'])){
+                                      $katakunci_user = $_POST['katakunci'];
+                                      $_SESSION['katakunci_user'] = $katakunci_user;
+                                    }
+                                    if(isset($_SESSION['katakunci_user'])){
+                                        $katakunci_user = $_SESSION['katakunci_user'];
+                                    }
                                     $sql_u = "SELECT `nama`, `email`, `level`, `id_user` FROM `user`";
-                                    if(isset($_GET['katakunci'])){
-                                      $katakunci_kategori = $_GET['katakunci'];
-                                      $sql_u .=" WHERE `nama` LIKE '%$katakunci_kategori%'";
+                                    if(!empty($katakunci_user)){
+                                        $sql_u .=" WHERE `nama` LIKE '%$katakunci_user%'";
                                     }
                                     $sql_u .= " ORDER BY `level` DESC LIMIT $posisi, $batas";
                                     $query_u = mysqli_query($koneksi, $sql_u);
@@ -125,9 +131,8 @@
                     <div class="card-footer clearfix">
                         <?php 
                             $sql_jum = "SELECT `nama`, `email`, `level`, `id_user` FROM `user`";
-                            if(isset($_GET['katakunci'])){
-                                $katakunci_kategori = $_GET['katakunci'];
-                                $sql_jum .=" WHERE `nama` LIKE '%$katakunci_kategori%'";
+                            if(!empty($katakunci_user)){
+                                $sql_jum .=" WHERE `nama` LIKE '%$katakunci_user%'";
                             }
                             $sql_jum .= "ORDER BY `nama`";
                             $query_jum = mysqli_query($koneksi, $sql_jum);
@@ -143,87 +148,44 @@
                                 }else{
                                     $sebelum = $halaman - 1;
                                     $setelah = $halaman + 1;
-                                    if(isset($_GET['katakunci'])){
-                                        $katakunci_kategori = $_GET['katakunci'];
-                                        if($halaman!=1){
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=user&katakunci=$katakunci_kategori&halaman=1'>First</a>
-                                                </li>
-                                            ";
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=user&katakunci=$katakunci_kategori&halaman=$sebelum'>«</a>
+                                    if($halaman!=1){
+                                        echo "
+                                            <li class='page-item'>
+                                                <a class='page-link'href='index.php?include=user&halaman=1'>First</a>
+                                            </li>
+                                        ";
+                                        echo "
+                                            <li class='page-item'>
+                                                <a class='page-link'href='index.php?include=user&halaman=$sebelum'>«</a>
                                                  </li>
                                             ";
-                                        }
-                                        for($i=1; $i<=$jum_halaman; $i++){
-                                            if($i > $halaman - 5 and $i < $halaman + 5){
-                                                if($i!=$halaman){
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link' href='index.php?include=user&katakunci=$katakunci_kategori&halaman=$i'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }else{
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }
+                                    }
+                                    for($i=1; $i<=$jum_halaman; $i++){
+                                        if($i > $halaman - 5 and $i < $halaman + 5){
+                                            if($i!=$halaman){
+                                                echo "
+                                                    <li class='page-item'>
+                                                        <a class='page-link' href='index.php?include=user&halaman=$i'>$i</a>
+                                                    </li>
+                                                ";
+                                            }else{
+                                                echo "
+                                                    <li class='page-item'>
+                                                        <a class='page-link'>$i</a>
+                                                    </li>
+                                                ";
                                             }
                                         }
-                                        if($halaman!=$jum_halaman){
-                                            echo "
-                                            <li class='page-item'>
-                                            <a class='page-link' href='index.php?include=user&katakunci=$katakunci_kategori&halaman=$setelah'>
-                                            »</a></li>
-                                            ";
-                                            echo "
-                                            <li class='page-item'><a class='page-link' href='index.php?include=user&katakunci=$katakunci_kategori&halaman=$jum_halaman'>Last</a></li>
-                                            ";
-                                        }
-                                    }else{
-                                        if($halaman!=1){
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=user&halaman=1'>First</a>
-                                                </li>
-                                            ";
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=user&halaman=$sebelum'>«</a>
-                                                 </li>
-                                            ";
-                                        }
-                                        for($i=1; $i<=$jum_halaman; $i++){
-                                            if($i > $halaman - 5 and $i < $halaman + 5){
-                                                if($i!=$halaman){
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link' href='index.php?include=user&halaman=$i'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }else{
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }
-                                            }
-                                        }
-                                        if($halaman!=$jum_halaman){
-                                            echo "
-                                            <li class='page-item'>
-                                            <a class='page-link' href='index.php?include=user&halaman=$setelah'>
-                                            »</a></li>
-                                            ";
-                                            echo "
-                                            <li class='page-item'><a class='page-link' href='index.php?include=user&halaman=$jum_halaman'>Last</a></li>
-                                            ";
-                                        }
+                                    }
+                                    if($halaman!=$jum_halaman){
+                                        echo "
+                                        <li class='page-item'>
+                                        <a class='page-link' href='index.php?include=user&halaman=$setelah'>
+                                        »</a></li>
+                                        ";
+                                        echo "
+                                        <li class='page-item'><a class='page-link' href='index.php?include=user&halaman=$jum_halaman'>Last</a></li>
+                                        ";
                                     }
                                 }
                             ?>

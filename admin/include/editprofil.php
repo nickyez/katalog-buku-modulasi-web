@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <?php include("includes/head.php") ?>
     <?php 
-      include('koneksi/koneksi.php');
-      session_start();
       if(isset($_SESSION['id_user'])){
         $id_user = $_SESSION['id_user'];
         $sql_d = "SELECT `nama`, `email` from `user` where `id_user` = '$id_user'";
@@ -16,15 +9,6 @@
         }
       }
     ?>
-</head>
-
-<body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-        <?php include("includes/header.php") ?>
-        <?php include("includes/sidebar.php") ?>
-
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <div class="container-fluid">
@@ -34,7 +18,7 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="profil.php">Profil</a></li>
+                                <li class="breadcrumb-item"><a href="index.php">Profil</a></li>
                                 <li class="breadcrumb-item active">Edit Profil</li>
                             </ol>
                         </div>
@@ -50,7 +34,7 @@
                         <h3 class="card-title" style="margin-top:5px;"><i class="far fa-list-alt"></i> Form Edit Profil
                         </h3>
                         <div class="card-tools">
-                            <a href="profil.php" class="btn btn-sm btn-warning float-right"><i
+                            <a href="index.php" class="btn btn-sm btn-warning float-right"><i
                                     class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
                         </div>
                     </div>
@@ -61,7 +45,7 @@
                       <?php if((!empty($_GET['notif'])) && (!empty($_GET['jenis']))){ ?>
                         <div class="alert alert-danger" role="alert">Maaf data <?php echo $_GET['jenis']; ?> wajib di isi</div><?php } ?>
                     </div>
-                    <form class="form-horizontal" action="konfirmasieditprofil.php" method="post" enctype="multipart/form-data">
+                    <form class="form-horizontal" action="index.php?include=konfirmasi-edit-profil" method="post" enctype="multipart/form-data">
                         <div class="card-body">
                             <div class="form-group row">
                                 <label for="foto" class="col-sm-12 col-form-label"><span class="text-info">
@@ -103,14 +87,3 @@
 
             </section>
             <!-- /.content -->
-        </div>
-        <!-- /.content-wrapper -->
-        <?php include("includes/footer.php") ?>
-
-    </div>
-    <!-- ./wrapper -->
-
-    <?php include("includes/script.php") ?>
-</body>
-
-</html>

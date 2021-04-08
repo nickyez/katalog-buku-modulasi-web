@@ -1,6 +1,4 @@
 <?php 
-    session_start();
-    include('koneksi/koneksi.php');
     if(isset($_SESSION['id_user'])){
         $id_user = $_SESSION['id_user'];
         $nama = $_POST['nama'];
@@ -13,9 +11,9 @@
     }
 
     if(empty($nama)){
-        header("Location:editprofil.php?notif=editkosong&jenis=nama");
+        header("Location:index.php?include=edit-profil&notif=editkosong&jenis=nama");
     }else if(empty($email)) {
-        header("Location:editprofil.php?notif=editkosong&jenis=email");
+        header("Location:index.php?include=edit-profil&notif=editkosong&jenis=email");
     }else{
         $lokasi_file = $_FILES['foto']['tmp_name'];
         $nama_file = $_FILES['foto']['name'];
@@ -30,6 +28,6 @@
             $sql = "UPDATE `user` SET `nama`='$nama', `email`='$email' WHERE `id_user`='$id_user'";
             mysqli_query($koneksi, $sql);
         }
-        header("Location:profil.php?notif=editberhasil");
+        header("Location:index.php?include=profil&notif=editberhasil");
     }
 ?>

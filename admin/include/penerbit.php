@@ -84,10 +84,16 @@
                                       $halaman = $_GET['halaman'];
                                       $posisi = ($halaman-1) * $batas;
                                   }  
-                                  $sql_p = "SELECT `id_penerbit`, `penerbit`,`alamat` FROM `penerbit`";
                                   if(isset($_POST['katakunci'])){
                                       $katakunci_penerbit = $_POST['katakunci'];
-                                      $sql_p .= " WHERE `penerbit` LIKE '%$katakunci_penerbit%'";
+                                      $_SESSION['katakunci_penerbit'] = $katakunci_penerbit;
+                                  }
+                                  if(isset($_SESSION['katakunci_penerbit'])){
+                                    $katakunci_penerbit = $_SESSION['katakunci_penerbit'];
+                                  }
+                                  $sql_p = "SELECT `id_penerbit`, `penerbit`,`alamat` FROM `penerbit`";
+                                  if(!empty($katakunci_penerbit)){
+                                    $sql_p .= " WHERE `penerbit` LIKE '%$katakunci_penerbit%'";
                                   }
                                   $sql_p .= "ORDER BY `penerbit` LIMIT $posisi, $batas";
                                   $query_p = mysqli_query($koneksi, $sql_p);
@@ -136,88 +142,46 @@
                                 }else{
                                     $sebelum = $halaman - 1;
                                     $setelah = $halaman + 1;
-                                    if(isset($_GET['katakunci'])){
-                                        $katakunci_penerbit = $_GET['katakunci'];
-                                        if($halaman!=1){
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=penerbit&katakunci=$katakunci_penerbit&halaman=1'>First</a>
-                                                </li>
-                                            ";
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=penerbit&katakunci=$katakunci_penerbit&halaman=$sebelum'>«</a>
-                                                 </li>
-                                            ";
-                                        }
-                                        for($i=1; $i<=$jum_halaman; $i++){
-                                            if($i > $halaman - 5 and $i < $halaman + 5){
-                                                if($i!=$halaman){
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link' href='index.php?include=penerbit&katakunci=$katakunci_penerbit&halaman=$i'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }else{
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }
-                                            }
-                                        }
-                                        if($halaman!=$jum_halaman){
-                                            echo "
+                                    
+                                    if($halaman!=1){
+                                        echo "
                                             <li class='page-item'>
-                                            <a class='page-link' href='index.php?include=penerbit&katakunci=$katakunci_penerbit&halaman=$setelah'>
-                                            »</a></li>
-                                            ";
-                                            echo "
-                                            <li class='page-item'><a class='page-link' href='index.php?include=penerbit&katakunci=$katakunci_penerbit&halaman=$jum_halaman'>Last</a></li>
-                                            ";
-                                        }
-                                    }else{
-                                        if($halaman!=1){
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=penerbit&halaman=1'>First</a>
-                                                </li>
-                                            ";
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=penerbit&halaman=$sebelum'>«</a>
-                                                 </li>
-                                            ";
-                                        }
-                                        for($i=1; $i<=$jum_halaman; $i++){
-                                            if($i > $halaman - 5 and $i < $halaman + 5){
-                                                if($i!=$halaman){
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link' href='index.php?include=penerbit&halaman=$i'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }else{
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }
-                                            }
-                                        }
-                                        if($halaman!=$jum_halaman){
-                                            echo "
+                                                <a class='page-link'href='index.php?include=penerbit&halaman=1'>First</a>
+                                            </li>
+                                        ";
+                                        echo "
                                             <li class='page-item'>
-                                            <a class='page-link' href='index.php?include=penerbit&halaman=$setelah'>
-                                            »</a></li>
-                                            ";
-                                            echo "
-                                            <li class='page-item'><a class='page-link' href='index.php?include=penerbit&halaman=$jum_halaman'>Last</a></li>
-                                            ";
+                                                <a class='page-link'href='index.php?include=penerbit&halaman=$sebelum'>«</a>
+                                             </li>
+                                        ";
+                                    }
+                                    for($i=1; $i<=$jum_halaman; $i++){
+                                        if($i > $halaman - 5 and $i < $halaman + 5){
+                                            if($i!=$halaman){
+                                                echo "
+                                                    <li class='page-item'>
+                                                        <a class='page-link' href='index.php?include=penerbit&halaman=$i'>$i</a>
+                                                    </li>
+                                                ";
+                                             }else{
+                                                echo "
+                                                        <li class='page-item'>
+                                                        <a class='page-link'>$i</a>
+                                                    </li>
+                                                ";
+                                            }
                                         }
                                     }
+                                    if($halaman!=$jum_halaman){
+                                        echo "
+                                        <li class='page-item'>
+                                        <a class='page-link' href='index.php?include=penerbit&halaman=$setelah'>
+                                        »</a></li>
+                                        ";
+                                        echo "
+                                         <li class='page-item'><a class='page-link' href='index.php?include=penerbit&halaman=$jum_halaman'>Last</a></li>
+                                        ";
+                                    } 
                                 }
                             ?>
                         </ul>

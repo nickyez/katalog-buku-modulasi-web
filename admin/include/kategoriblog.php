@@ -83,10 +83,16 @@
                                       $halaman = $_GET['halaman'];
                                       $posisi = ($halaman-1) * $batas;
                                   }  
+                                  if(isset($_POST['katakunci'])){
+                                      $katakunci_kat_blog = $_POST['katakunci'];
+                                      $_SESSION['katakunci_kat_blog'] = $katakunci_kat_blog;
+                                  }
+                                  if(isset($_SESSION['katakunci_kat_blog'])){
+                                      $katakunci_kat_blog = $_SESSION['katakunci_kat_blog'];
+                                  }
                                   $sql_k = "SELECT `id_kategori_blog`, `kategori_blog` FROM `kategori_blog`";
-                                  if(isset($_GET['katakunci'])){
-                                      $katakunci_kategori = $_GET['katakunci'];
-                                      $sql_k .= " WHERE `kategori_blog` LIKE '%$katakunci_kategori%'";
+                                  if(!empty($katakunci_kat_blog)){
+                                    $sql_k .= " WHERE `kategori_blog` LIKE '%$katakunci_kat_blog%'";
                                   }
                                   $sql_k .= "ORDER BY `kategori_blog` LIMIT $posisi, $batas";
                                   $query_k = mysqli_query($koneksi, $sql_k);
@@ -115,9 +121,8 @@
             <div class="card-footer clearfix">
                 <?php 
                             $sql_jum = "SELECT `id_kategori_blog`, `kategori_blog` FROM `kategori_blog`";
-                            if(isset($_GET['katakunci'])){
-                                $katakunci_kategori = $_GET['katakunci'];
-                                $sql_jum .=" WHERE `kategori_blog` LIKE '%$katakunci_kategori%'";
+                            if(!empty($katakunci_kat_blog)){
+                                $sql_jum .=" WHERE `kategori_blog` LIKE '%$katakunci_kat_blog%'";
                             }
                             $sql_jum .= "ORDER BY `kategori_blog`";
                             $query_jum = mysqli_query($koneksi, $sql_jum);
@@ -133,48 +138,6 @@
                                 }else{
                                     $sebelum = $halaman - 1;
                                     $setelah = $halaman + 1;
-                                    if(isset($_GET['katakunci'])){
-                                        $katakunci_kategori = $_GET['katakunci'];
-                                        if($halaman!=1){
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=kategori-blog&katakunci=$katakunci_kategori&halaman=1'>First</a>
-                                                </li>
-                                            ";
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=kategori-blog&katakunci=$katakunci_kategori&halaman=$sebelum'>«</a>
-                                                 </li>
-                                            ";
-                                        }
-                                        for($i=1; $i<=$jum_halaman; $i++){
-                                            if($i > $halaman - 5 and $i < $halaman + 5){
-                                                if($i!=$halaman){
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link' href='index.php?include=kategori-blog&katakunci=$katakunci_kategori&halaman=$i'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }else{
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }
-                                            }
-                                        }
-                                        if($halaman!=$jum_halaman){
-                                            echo "
-                                            <li class='page-item'>
-                                            <a class='page-link' href='index.php?include=kategori-blog&katakunci=$katakunci_kategori&halaman=$setelah'>
-                                            »</a></li>
-                                            ";
-                                            echo "
-                                            <li class='page-item'><a class='page-link' href='index.php?include=kategori-blog&katakunci=$katakunci_kategori&halaman=$jum_halaman'>Last</a></li>
-                                            ";
-                                        }
-                                    }else{
                                         if($halaman!=1){
                                             echo "
                                                 <li class='page-item'>
@@ -182,38 +145,36 @@
                                                 </li>
                                             ";
                                             echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=kategori-blog&halaman=$sebelum'>«</a>
-                                                 </li>
-                                            ";
-                                        }
-                                        for($i=1; $i<=$jum_halaman; $i++){
-                                            if($i > $halaman - 5 and $i < $halaman + 5){
-                                                if($i!=$halaman){
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link' href='index.php?include=kategori-blog&halaman=$i'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }else{
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }
+                                                <li class='page-item'>                                                    <a class='page-link'href='index.php?include=kategori-blog&halaman=$sebelum'>«</a>
+                                             </li>
+                                        ";
+                                    }
+                                    for($i=1; $i<=$jum_halaman; $i++){
+                                        if($i > $halaman - 5 and $i < $halaman + 5){
+                                            if($i!=$halaman){
+                                                echo "
+                                                    <li class='page-item'>
+                                                        <a class='page-link' href='index.php?include=kategori-blog&halaman=$i'>$i</a>
+                                                    </li>
+                                                ";
+                                            }else{
+                                                echo "
+                                                    <li class='page-item'>
+                                                        <a class='page-link'>$i</a>
+                                                    </li>
+                                                ";
                                             }
                                         }
-                                        if($halaman!=$jum_halaman){
-                                            echo "
-                                            <li class='page-item'>
-                                            <a class='page-link' href='index.php?include=kategori-blog&halaman=$setelah'>
-                                            »</a></li>
-                                            ";
-                                            echo "
-                                            <li class='page-item'><a class='page-link' href='index.php?include=kategori-blog&halaman=$jum_halaman'>Last</a></li>
-                                            ";
-                                        }
+                                    }
+                                    if($halaman!=$jum_halaman){
+                                        echo "
+                                        <li class='page-item'>
+                                        <a class='page-link' href='index.php?include=kategori-blog&halaman=$setelah'>
+                                        »</a></li>
+                                        ";
+                                        echo "
+                                        <li class='page-item'><a class='page-link' href='index.php?include=kategori-blog&halaman=$jum_halaman'>Last</a></li>
+                                        ";
                                     }
                                 }
                             ?>

@@ -99,9 +99,15 @@
                                         $halaman = $_GET['halaman'];
                                         $posisi = ($halaman-1) * $batas;
                                     }
-                                    $sql_b = "SELECT `b`.`id_buku`, `b`.`Judul`, `k`.`kategori_buku`, `p`.`penerbit` FROM `buku` `b` INNER JOIN `kategori_buku` `k` ON `b`.`id_kategori_buku` = `k`.`id_kategori_buku` INNER JOIN `penerbit` `p` ON `b`.`id_penerbit` = `p`.`id_penerbit`";
                                     if(isset($_POST['katakunci'])){
                                         $katakunci_buku = $_POST['katakunci'];
+                                        $_SESSION['katakunci_buku'] = $katakunci_buku;
+                                    }
+                                    if(isset($_SESSION['katakunci_buku'])){
+                                        $katakunci_buku = $_SESSION['katakunci_buku'];
+                                    }
+                                    $sql_b = "SELECT `b`.`id_buku`, `b`.`Judul`, `k`.`kategori_buku`, `p`.`penerbit` FROM `buku` `b` INNER JOIN `kategori_buku` `k` ON `b`.`id_kategori_buku` = `k`.`id_kategori_buku` INNER JOIN `penerbit` `p` ON `b`.`id_penerbit` = `p`.`id_penerbit`";
+                                    if(!empty($katakunci_buku)){
                                         $sql_b .= " WHERE `b`.`Judul` LIKE '%$katakunci_buku%'";
                                     }
                                     $sql_b .= " ORDER BY `k`.`kategori_buku`, `b`.`Judul` LIMIT $posisi, $batas";
@@ -137,8 +143,7 @@
                     <ul class="pagination pagination-sm m-0 float-right">
                         <?php 
                             $sql_b = "SELECT `b`.`id_buku`, `b`.`Judul`, `k`.`kategori_buku`, `p`.`penerbit` FROM `buku` `b` INNER JOIN `kategori_buku` `k` ON `b`.`id_kategori_buku` = `k`.`id_kategori_buku` INNER JOIN `penerbit` `p` ON `b`.`id_penerbit` = `p`.`id_penerbit`";
-                            if(isset($_POST['katakunci'])){
-                                $katakunci_buku = $_POST['katakunci'];
+                            if(!empty($katakunci_buku)){
                                 $sql_b .= " WHERE `b`.`Judul` LIKE '%$katakunci_buku%'";
                             }
                             $sql_b .= " ORDER BY `k`.`kategori_buku`, `b`.`Judul`";
@@ -155,87 +160,44 @@
                                 }else{
                                     $sebelum = $halaman - 1;
                                     $setelah = $halaman + 1;
-                                    if(isset($_POST['katakunci'])){
-                                        $katakunci_buku = $_POST['katakunci'];
-                                        if($halaman!=1){
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=buku&katakunci=$katakunci_buku&halaman=1'>First</a>
-                                                </li>
-                                            ";
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=buku&katakunci=$katakunci_buku&halaman=$sebelum'>«</a>
-                                                 </li>
-                                            ";
-                                        }
-                                        for($i=1; $i<=$jum_halaman; $i++){
-                                            if($i > $halaman - 5 and $i < $halaman + 5){
-                                                if($i!=$halaman){
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link' href='index.php?include=buku&katakunci=$katakunci_buku&halaman=$i'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }else{
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }
+                                    if($halaman!=1){
+                                        echo "
+                                            <li class='page-item'>
+                                                <a class='page-link'href='index.php?include=buku&halaman=1'>First</a>
+                                            </li>
+                                        ";
+                                        echo "
+                                            <li class='page-item'>
+                                                <a class='page-link'href='index.php?include=buku&halaman=$sebelum'>«</a>
+                                             </li>
+                                        ";
+                                    }
+                                    for($i=1; $i<=$jum_halaman; $i++){
+                                        if($i > $halaman - 5 and $i < $halaman + 5){
+                                            if($i!=$halaman){
+                                                echo "
+                                                    <li class='page-item'>
+                                                        <a class='page-link' href='index.php?include=buku&halaman=$i'>$i</a>
+                                                    </li>
+                                                ";
+                                            }else{
+                                                echo "
+                                                    <li class='page-item'>
+                                                        <a class='page-link'>$i</a>
+                                                    </li>
+                                                ";
                                             }
                                         }
-                                        if($halaman!=$jum_halaman){
-                                            echo "
-                                            <li class='page-item'>
-                                            <a class='page-link' href='index.php?include=buku&katakunci=$katakunci_buku&halaman=$setelah'>
-                                            »</a></li>
-                                            ";
-                                            echo "
-                                            <li class='page-item'><a class='page-link' href='index.php?include=buku&katakunci=$katakunci_buku&halaman=$jum_halaman'>Last</a></li>
-                                            ";
-                                        }
-                                    }else{
-                                        if($halaman!=1){
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=buku&halaman=1'>First</a>
-                                                </li>
-                                            ";
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=buku&halaman=$sebelum'>«</a>
-                                                 </li>
-                                            ";
-                                        }
-                                        for($i=1; $i<=$jum_halaman; $i++){
-                                            if($i > $halaman - 5 and $i < $halaman + 5){
-                                                if($i!=$halaman){
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link' href='index.php?include=buku&halaman=$i'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }else{
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }
-                                            }
-                                        }
-                                        if($halaman!=$jum_halaman){
-                                            echo "
-                                            <li class='page-item'>
-                                            <a class='page-link' href='index.php?include=buku&halaman=$setelah'>
-                                            »</a></li>
-                                            ";
-                                            echo "
-                                            <li class='page-item'><a class='page-link' href='index.php?include=buku&halaman=$jum_halaman'>Last</a></li>
-                                            ";
-                                        }
+                                    }
+                                    if($halaman!=$jum_halaman){
+                                        echo "
+                                        <li class='page-item'>
+                                        <a class='page-link' href='index.php?include=buku&halaman=$setelah'>
+                                        »</a></li>
+                                        ";
+                                        echo "
+                                        <li class='page-item'><a class='page-link' href='index.php?include=buku&halaman=$jum_halaman'>Last</a></li>
+                                        ";
                                     }
                                 }
                             ?>

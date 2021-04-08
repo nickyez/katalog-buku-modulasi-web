@@ -66,10 +66,16 @@
                                       $halaman = $_GET['halaman'];
                                       $posisi = ($halaman-1) * $batas;
                                   }  
+                                  if(isset($_POST['katakunci'])){
+                                      $katakunci_tag = $_POST['katakunci'];
+                                      $_SESSION['katakunci_tag'] = $katakunci_tag;
+                                  }
+                                  if(isset($_SESSION['katakunci_tag'])){
+                                    $katakunci_tag = $_SESSION['katakunci_tag'];
+                                  }
                                   $sql_tag = "SELECT `id_tag`, `tag` FROM `tag`";
-                                  if(isset($_POST['katakunci_tag'])){
-                                      $katakunci_tag_kategori = $_POST['katakunci_tag'];
-                                      $sql_tag .= " WHERE `tag` LIKE '%$katakunci_tag_kategori%'";
+                                  if(!empty($katakunci_tag)){
+                                    $sql_tag .= " WHERE `tag` LIKE '%$katakunci_tag_kategori%'";
                                   }
                                   $sql_tag .= "ORDER BY `tag` LIMIT $posisi, $batas";
                                   $query_tag = mysqli_query($koneksi, $sql_tag);
@@ -99,9 +105,8 @@
             <div class="card-footer clearfix">
                 <?php 
                             $sql_tag = "SELECT `id_tag`, `tag` FROM `tag`";
-                            if(isset($_POST['katakunci_tag'])){
-                                $katakunci_tag_kategori = $_POST['katakunci_tag'];
-                                $sql_tag .= " WHERE `tag` LIKE '%$katakunci_tag_kategori%'";
+                            if(!empty($_SESSION['katakunci_tag'])){
+                                $sql_tag .= " WHERE `tag` LIKE '%$katakunci_tag%'";
                             }
                             $sql_tag .= "ORDER BY `tag`";
                             $query_jum = mysqli_query($koneksi, $sql_tag);
@@ -117,88 +122,46 @@
                                 }else{
                                     $sebelum = $halaman - 1;
                                     $setelah = $halaman + 1;
-                                    if(isset($_POST['katakunci_tag'])){
-                                        $katakunci_tag_kategori = $_POST['katakunci_tag'];
-                                        if($halaman!=1){
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=tag&katakunci_tag=$katakunci_tag_kategori&halaman=1'>First</a>
-                                                </li>
-                                            ";
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=tag&katakunci_tag=$katakunci_tag_kategori&halaman=$sebelum'>«</a>
-                                                 </li>
-                                            ";
-                                        }
-                                        for($i=1; $i<=$jum_halaman; $i++){
-                                            if($i > $halaman - 5 and $i < $halaman + 5){
-                                                if($i!=$halaman){
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link' href='index.php?include=tag&katakunci_tag=$katakunci_tag_kategori&halaman=$i'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }else{
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }
-                                            }
-                                        }
-                                        if($halaman!=$jum_halaman){
-                                            echo "
+                                    if($halaman!=1){
+                                        echo "
                                             <li class='page-item'>
-                                            <a class='page-link' href='index.php?include=tag&katakunci_tag=$katakunci_tag_kategori&halaman=$setelah'>
-                                            »</a></li>
-                                            ";
-                                            echo "
-                                            <li class='page-item'><a class='page-link' href='index.php?include=tag&katakunci_tag=$katakunci_tag_kategori&halaman=$jum_halaman'>Last</a></li>
-                                            ";
-                                        }
-                                    }else{
-                                        if($halaman!=1){
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=tag&halaman=1'>First</a>
-                                                </li>
-                                            ";
-                                            echo "
-                                                <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=tag&halaman=$sebelum'>«</a>
-                                                 </li>
-                                            ";
-                                        }
-                                        for($i=1; $i<=$jum_halaman; $i++){
-                                            if($i > $halaman - 5 and $i < $halaman + 5){
-                                                if($i!=$halaman){
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link' href='index.php?include=tag&halaman=$i'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }else{
-                                                    echo "
-                                                        <li class='page-item'>
-                                                            <a class='page-link'>$i</a>
-                                                        </li>
-                                                    ";
-                                                }
+                                                <a class='page-link'href='index.php?include=tag&halaman=1'>First</a>
+                                            </li>
+                                        ";
+                                        echo "
+                                             <li class='page-item'>
+                                                <a class='page-link'href='index.php?include=tag&halaman=$sebelum'>«</a>
+                                             </li>
+                                        ";
+                                    }
+                                    for($i=1; $i<=$jum_halaman; $i++){
+                                        if($i > $halaman - 5 and $i < $halaman + 5){
+                                            if($i!=$halaman){
+                                                echo "
+                                                    <li class='page-item'>
+                                                        <a class='page-link' href='index.php?include=tag&halaman=$i'>$i</a>
+                                                    </li>
+                                                ";
+                                            }else{
+                                               echo "
+                                                    <li class='page-item'>
+                                                        <a class='page-link'>$i</a>
+                                                    </li>
+                                                ";
                                             }
-                                        }
-                                        if($halaman!=$jum_halaman){
-                                            echo "
-                                            <li class='page-item'>
-                                            <a class='page-link' href='index.php?include=tag&halaman=$setelah'>
-                                            »</a></li>
-                                            ";
-                                            echo "
-                                            <li class='page-item'><a class='page-link' href='index.php?include=tag&halaman=$jum_halaman'>Last</a></li>
-                                            ";
                                         }
                                     }
+                                    if($halaman!=$jum_halaman){
+                                        echo "
+                                        <li class='page-item'>
+                                        <a class='page-link' href='index.php?include=tag&halaman=$setelah'>
+                                        »</a></li>
+                                        ";
+                                        echo "
+                                        <li class='page-item'><a class='page-link' href='index.php?include=tag&halaman=$jum_halaman'>Last</a></li>
+                                        ";
+                                    }
+                                    
                                 }
                             ?>
                 </ul>
