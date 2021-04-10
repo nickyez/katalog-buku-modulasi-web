@@ -1,28 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-<?php include("includes/head.php") ?> 
-</head>
-<body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
-<?php include("includes/header.php") ?>
-
-  <?php include("includes/sidebar.php") ?>
-
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<?php
+    if(isset($_GET['data'])){
+    $id_blog = $_GET['data'];
+    $_SESSION['id_blog']=$id_blog;
+    $date = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
+    //get data kategori buku
+    $sql_d = "SELECT `id_kategori_blog`,`judul`,`isi` FROM `blog` WHERE `id_blog` = '$id_blog'";
+    $query_d = mysqli_query($koneksi,$sql_d);
+    while($data_d = mysqli_fetch_row($query_d)){
+      $id_kategori_blog = $data_d[0];
+      $judul = $data_d[1];
+      $isi = $data_d[2];
+    }
+  }
+?>
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h3><i class="fas fa-user-tie"></i> Detail Data Blog</h3>
+            <h3><i class="fas fa-edit"></i> Edit Data Blog</h3>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="blog.php">Data Blog</a></li>
-              <li class="breadcrumb-item active">Detail Data Blog</li>
+              <li class="breadcrumb-item"><a href="index.php?include=blog">Data Blog</a></li>
+              <li class="breadcrumb-item active">Edit Data Blog</li>
             </ol>
           </div>
         </div>
@@ -31,61 +32,76 @@
 
     <!-- Main content -->
     <section class="content">
-            <div class="card">
-              <div class="card-header">
-                <div class="card-tools">
-                  <a href="blog.php" class="btn btn-sm btn-warning float-right">
-                  <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
-                </div>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table class="table table-bordered">
-                    <tbody>                 
-                      <tr>
-                        <td width="20%"><strong>Tanggal<strong></td>
-                        <td width="80%">24-2-2021</td>
-                      </tr>              
-                      <tr>
-                        <td width="20%"><strong>Kategori Blog<strong></td>
-                        <td width="80%">Teknologi</td>
-                      </tr>                 
-                      <tr>
-                        <td width="20%"><strong>Judul<strong></td>
-                        <td width="80%">Teknologi Terkini</td>
-                      </tr> 
-                      <tr>
-                        <td width="20%"><strong>Penulis<strong></td>
-                        <td width="80%">Salnan Ratih</td>
-                      </tr>
-                      <tr>
-                        <td width="20%"><strong>Isi<strong></td>
-                        <td width="80%">Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                        when an unknown printer took a galley of type and scrambled it to make a type 
-                        specimen book. It has survived not only five centuries, but also the leap into 
-                        electronic typesetting, remaining essentially unchanged. It was popularised in the
-                         1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more
-                          recently with desktop publishing software like Aldus PageMaker including versions
-                           of Lorem Ipsum.</td>
-                      </tr>
-                    </tbody>
-                  </table>  
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer clearfix">&nbsp;</div>
+
+    <div class="card card-info">
+      <div class="card-header">
+        <h3 class="card-title"style="margin-top:5px;"><i class="far fa-list-alt"></i> Form Edit Data Blog</h3>
+        <div class="card-tools">
+          <a href="index.php?include=blog" class="btn btn-sm btn-warning float-right">
+          <i class="fas fa-arrow-alt-circle-left"></i> Kembali</a>
+        </div>
+      </div>
+      <!-- /.card-header -->
+      <!-- form start -->
+      </br></br>
+      <?php if(!empty($_GET['notif'])){?>
+      <?php if($_GET['notif']=="editkosong"){?>
+        <div class="alert alert-danger" role="alert">
+        Maaf data kategori buku wajib di isi</div>
+      <?php }?>
+      <?php }?>
+      <form class="form-horizontal" action="index.php?include=konfirmasi-edit-blog "method="post" enctype="multipart/form-data">
+        <div class="card-body">
+          
+        <div class="form-group row">
+            <label for="kategori" class="col-sm-3 col-form-label">Kategori Blog</label>
+            <div class="col-sm-7">
+              <select class="form-control" id="kategori" name="kategori_blog">
+              <?php
+                  $sql_k = "SELECT id_kategori_blog, kategori_blog FROM 
+                           kategori_blog ORDER BY kategori_blog";
+                  $query_k = mysqli_query($koneksi,$sql_k);
+                  while ($data_k = mysqli_fetch_row($query_k)) {
+                    $id_kat = $data_k[0];
+                    $kat = $data_k[1];
+
+                ?>
+                 <option value="<?php echo $id_kat;?>"
+                  <?php if($id_kat==$id_kategori_blog){?>
+                  selected <?php }?>><?php echo $kat;?></option>
+                  <?php }?>
+              </select>
             </div>
-            <!-- /.card -->
+          </div>
+          <div class="form-group row">
+            <label for="nim" class="col-sm-3 col-form-label">Judul</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" name="judul" id="judul" value="<?php echo $judul;?>">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="isi" class="col-sm-3 col-form-label">Isi</label>
+            <div class="col-sm-7">
+              <textarea class="form-control" name="isi" id="editor1" rows="12"><?php echo $isi;?></textarea>
+              <input hidden type="text" class="form-control" name="tanggal" id="tanggal" value="<?php echo $date->format('Y-m-d');?>">
+              <input hidden type="text" class="form-control" name="id_user" id="id_user" value="<?php echo $_SESSION['id_user']; ?>">
+            </div>
+          </div>
+
+          </div>
+        </div>
+
+      </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+          <div class="col-sm-12">
+            <button type="submit" class="btn btn-info float-right"><i class="fas fa-save"></i> Simpan</button>
+          </div>  
+        </div>
+        <!-- /.card-footer -->
+      </form>
+    </div>
+    <!-- /.card -->
 
     </section>
     <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <?php include("includes/footer.php") ?>
-
-</div>
-<!-- ./wrapper -->
-
-<?php include("includes/script.php") ?>
-</body>
-</html>
