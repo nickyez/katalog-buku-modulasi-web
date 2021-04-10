@@ -9,9 +9,9 @@
     }
     $sql_b = "SELECT `b`.`id_buku`, `b`.`judul`, `b`.`cover`, `p`.`penerbit` FROM `buku` `b` INNER JOIN `penerbit` `p` ON `b`.`id_penerbit` = `p`.`id_penerbit`";
     if(isset($_SESSION['katakunci_buku'])){
-        $sql_b .= " WHERE `b`.`judul` LIKE '%$katakunci_buku%";
+        $sql_b .= " WHERE `b`.`judul` LIKE '%$katakunci_buku%'";
     }
-    $sql_b .= "ORDER BY `b`.`judul` LIMIT $posisi, $batas";                   
+    $sql_b .= " ORDER BY `b`.`judul` LIMIT $posisi, $batas";                 
     $query_b = mysqli_query($koneksi,$sql_b);
     $row = mysqli_num_rows($query_b);
     if($row == 0 ){
@@ -22,11 +22,10 @@
         <?php
     }else{
         while($data_b = mysqli_fetch_row($query_b)){
-            
-                $id_buku = $data_b[0];
-                $judul_buku = $data_b[1];
-                $cover = $data_b[2];
-                $penerbit = $data_b[3];
+            $id_buku = $data_b[0];
+            $judul_buku = $data_b[1];
+            $cover = $data_b[2];
+            $penerbit = $data_b[3];
         ?>
 <div class="col-md-4">
     <div class="card mb-4 shadow-sm">
@@ -47,15 +46,15 @@
 <div class="col-sm-12">
     <nav aria-label="Page navigation">
         <?php 
-                                    $sql_b = "SELECT `b`.`id_buku`, `b`.`judul`, `b`.`cover`, `p`.`penerbit` FROM `buku` `b` INNER JOIN `penerbit` `p` ON `b`.`id_penerbit` = `p`.`id_penerbit`";
-                                    if(isset($_SESSION['katakunci_buku'])){
-                                        $sql_b .= " WHERE `b`.`judul` LIKE '%$katakunci_buku%";
-                                    }
-                                    $sql_b .= " ORDER BY `b`.`judul`"; 
-                                    $query_jum = mysqli_query($koneksi, $sql_b);
-                                    $jum_data = mysqli_num_rows($query_jum);
-                                    $jum_halaman = ceil($jum_data/$batas);
-                                ?>
+            $sql_b = "SELECT `b`.`id_buku`, `b`.`judul`, `b`.`cover`, `p`.`penerbit` FROM `buku` `b` INNER JOIN `penerbit` `p` ON `b`.`id_penerbit` = `p`.`id_penerbit`";
+            if(isset($_SESSION['katakunci_buku'])){
+                $sql_b .= " WHERE `b`.`judul` LIKE '%$katakunci_buku%'";
+            }
+            $sql_b .= " ORDER BY `b`.`judul`"; 
+            $query_jum = mysqli_query($koneksi, $sql_b);
+            $jum_data = mysqli_num_rows($query_jum);
+            $jum_halaman = ceil($jum_data/$batas);
+        ?>
         <ul class="pagination">
             <?php
                                 if($jum_halaman==0){

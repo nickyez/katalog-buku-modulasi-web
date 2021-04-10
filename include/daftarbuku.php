@@ -13,34 +13,38 @@
                         $data = $_GET['data'];
                         if($include=='daftar-buku-kategori'){
                             $sql = "SELECT kategori_buku FROM kategori_buku WHERE id_kategori_buku = $data";
+                            $query = mysqli_query($koneksi, $sql);
+                            while($data_b = mysqli_fetch_row($query)){
+                                $nama = $data_b[0];
+                            }
                         }elseif($include=='daftar-buku-tag'){
                             $sql = "SELECT tag FROM tag WHERE id_tag = $data";
-                        }elseif($include=='cari-buku'){
-                            if(isset($_POST['katakunci'])){
-                                $katakunci_buku = $_POST['katakunci'];
-                                $_SESSION['katakunci_buku'] = $katakunci_buku;
-                                $nama = $katakunci_buku;
-                            }
-                            if(isset($_SESSION['katakunci_buku'])){
-                              $katakunci_buku = $_SESSION['katakunci_buku'];
+                            $query = mysqli_query($koneksi, $sql);
+                            while($data_b = mysqli_fetch_row($query)){
+                                $nama = $data_b[0];
                             }
                         }
-                        $query = mysqli_query($koneksi, $sql);
-                        while($data_b = mysqli_fetch_row($query)){
-                            $nama = $data_b[0];
+                    }else{
+                        if(isset($_POST['katakunci'])){
+                            $katakunci_buku = $_POST['katakunci'];
+                            $_SESSION['katakunci_buku'] = $katakunci_buku;
+                        }
+                        if(isset($_SESSION['katakunci_buku'])){
+                          $katakunci_buku = $_SESSION['katakunci_buku'];
                         }
                     }
                 }
             ?>
             <h2 class="text-primary">
-                <?php if($include=='daftar-buku-kategori'){ echo "Categories ";}elseif($include=='daftar-buku-tag'){ echo "Tag ";}elseif($include=='cari-buku'){ echo "Hasil Pencarian : "; } ?>:
-                <?php echo $nama; ?></h2><br><br>
+                <?php if($include=='daftar-buku-kategori'){ echo "Categories : $nama";}elseif($include=='daftar-buku-tag'){ echo "Tag : $nama";}elseif($include=='cari-buku'){ echo "Hasil Pencarian"; } ?></h2><br><br>
             <div class="row">
                 <div class="col-md-9 katalog-main">
                     <div class="row">
                         <?php 
                           $include = $_GET['include'];
-                          $data = $_GET['data'];
+                          if(isset($_GET['data'])){
+                              $data = $_GET['data'];
+                          }
                           if($include=='daftar-buku-kategori'){
                               include('daftarbuku/kategori.php');
                           }elseif($include=='daftar-buku-tag'){

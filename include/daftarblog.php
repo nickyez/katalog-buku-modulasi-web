@@ -36,7 +36,7 @@
                         $include = $_GET['include'];
                         if($include == 'daftar-blog-arsip'){
                             include('arsip.php');
-                        }else{
+                        }elseif($include == 'daftar-blog-kategori'){
                             include('kategoriblog.php');
                         }
                      ?>
