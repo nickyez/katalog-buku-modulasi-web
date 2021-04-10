@@ -9,6 +9,14 @@
     }
     $sql_b = "SELECT `b`.`id_buku`, `b`.`judul`, `b`.`cover`, `p`.`penerbit` FROM `buku` `b` INNER JOIN `penerbit` `p` ON `b`.`id_penerbit` = `p`.`id_penerbit` INNER JOIN `tag_buku` `tb` ON `b`.`id_buku` = `tb`.`id_buku` WHERE `tb`.`id_tag` = $data ORDER BY `b`.`judul` LIMIT $posisi,$batas";                   
     $query_b = mysqli_query($koneksi,$sql_b);
+    $row = mysqli_num_rows($query_b);
+    if($row == 0 ){
+        ?>
+        <div class="col-md-4">
+            <h3>Buku tidak tersedia</h3>
+        </div>
+        <?php
+    }else{
     while($data_b = mysqli_fetch_row($query_b)){
         $id_buku = $data_b[0];
         $judul_buku = $data_b[1];
@@ -30,7 +38,7 @@
         </div>
     </div>
 </div>
-<?php } ?>
+<?php }} ?>
 <div class="col-sm-12">
     <nav aria-label="Page navigation">
         <?php 
