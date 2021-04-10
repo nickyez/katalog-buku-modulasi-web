@@ -13,26 +13,28 @@
  //pemanggilan konten halaman index
     if(isset($_GET['include'])){
         $include = $_GET['include'];
-           if($include == "detail-buku"){
+            if($include == "detail-buku"){
                include('include/detailbuku.php');
-           }elseif($include == "detail-blog"){
+            }elseif($include == "detail-blog"){
                include('include/detailblog.php');
-           }elseif($include == "blog"){
+            }elseif($include == "blog"){
                include('include/blog.php');
-           }elseif($include == "daftar-blog"){
-            include('include/daftarblog.php');
+            }elseif($include == "daftar-blog"){
+                include('include/daftarblog.php');
             }elseif($include == "about-us"){
                include('include/aboutus.php');
-           }elseif($include == "daftar-buku-kategori"){
+            }elseif($include == "daftar-buku-kategori"){
                include('include/daftarbuku.php');
-           }elseif($include == "daftar-buku-tag"){
+            }elseif($include == "daftar-buku-tag"){
                include('include/daftarbuku.php');
-           }elseif($include == "daftar-blog-arsip"){
-            include('include/daftarblog.php');
+            }elseif($include == "daftar-blog-arsip"){
+                include('include/daftarblog.php');
             }elseif($include == "daftar-blog-kategori"){
                 include('include/daftarblog.php');
-                }elseif($include == "contact-us"){
-            include('include/contactus.php');
+            }elseif($include == "contact-us"){
+                include('include/contactus.php');
+            }elseif($include="cari-buku"){
+                include('include/daftarbuku.php');
             }
     }else{
         include("include/index.php");

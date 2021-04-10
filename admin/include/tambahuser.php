@@ -33,7 +33,8 @@
               <div class="alert alert-danger" role="alert">Maaf data <?php echo $_GET['jenis']; ?> wajib diisi</div>
           <?php } ?>
       </div>
-      <form class="form-horizontal" action="index.php?include=konfirmasi-tambah-user" method="post">
+    
+      <form class="form-horizontal" action="index.php?include=konfirmasi-tambah-user" method="post" enctype="multipart/form-data">
         <div class="card-body">
           <div class="form-group row">
             <label for="foto" class="col-sm-12 col-form-label"><span class="text-info"><i class="fas fa-user-circle"></i> <u>Data User</u></span></label>
@@ -80,11 +81,7 @@
               </select>
             </div>
           </div>
-
           </div>
-        </div>
-
-      </div>
         <!-- /.card-body -->
         <div class="card-footer">
           <div class="col-sm-12">

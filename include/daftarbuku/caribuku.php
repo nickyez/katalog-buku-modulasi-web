@@ -1,5 +1,5 @@
 <?php
-    $batas = 1;
+    $batas = 5;
     if(!isset($_GET['halaman'])){
         $posisi = 0;
         $halaman = 1;
@@ -7,14 +7,27 @@
         $halaman = $_GET['halaman'];
         $posisi = ($halaman-1) * $batas;
     }
-    $sql_b = "SELECT `b`.`id_buku`, `b`.`judul`, `b`.`cover`, `p`.`penerbit` FROM `buku` `b` INNER JOIN `penerbit` `p` ON `b`.`id_penerbit` = `p`.`id_penerbit` INNER JOIN `tag_buku` `tb` ON `b`.`id_buku` = `tb`.`id_buku` WHERE `tb`.`id_tag` = $data ORDER BY `b`.`judul`";                   
+    $sql_b = "SELECT `b`.`id_buku`, `b`.`judul`, `b`.`cover`, `p`.`penerbit` FROM `buku` `b` INNER JOIN `penerbit` `p` ON `b`.`id_penerbit` = `p`.`id_penerbit`";
+    if(isset($_SESSION['katakunci_buku'])){
+        $sql_b .= " WHERE `b`.`judul` LIKE '%$katakunci_buku%";
+    }
+    $sql_b .= "ORDER BY `b`.`judul` LIMIT $posisi, $batas";                   
     $query_b = mysqli_query($koneksi,$sql_b);
-    while($data_b = mysqli_fetch_row($query_b)){
-        $id_buku = $data_b[0];
-        $judul_buku = $data_b[1];
-        $cover = $data_b[2];
-        $penerbit = $data_b[3];
-?>
+    $row = mysqli_num_rows($query_b);
+    if($row == 0 ){
+        ?>
+        <div class="col-md-4">
+            <h3>Buku tidak tersedia</h3>
+        </div>
+        <?php
+    }else{
+        while($data_b = mysqli_fetch_row($query_b)){
+            
+                $id_buku = $data_b[0];
+                $judul_buku = $data_b[1];
+                $cover = $data_b[2];
+                $penerbit = $data_b[3];
+        ?>
 <div class="col-md-4">
     <div class="card mb-4 shadow-sm">
         <img src="admin/cover/<?php echo $cover; ?>" class="img-fluid" alt="<?php echo $judul_buku; ?>"
@@ -34,7 +47,11 @@
 <div class="col-sm-12">
     <nav aria-label="Page navigation">
         <?php 
-                                    $sql_b = "SELECT `b`.`id_buku`, `b`.`judul`, `b`.`cover`, `p`.`penerbit` FROM `buku` `b` INNER JOIN `penerbit` `p` ON `b`.`id_penerbit` = `p`.`id_penerbit` INNER JOIN `tag_buku` `tb` ON `b`.`id_buku` = `tb`.`id_buku` WHERE `tb`.`id_tag` = $data ORDER BY `b`.`judul`";
+                                    $sql_b = "SELECT `b`.`id_buku`, `b`.`judul`, `b`.`cover`, `p`.`penerbit` FROM `buku` `b` INNER JOIN `penerbit` `p` ON `b`.`id_penerbit` = `p`.`id_penerbit`";
+                                    if(isset($_SESSION['katakunci_buku'])){
+                                        $sql_b .= " WHERE `b`.`judul` LIKE '%$katakunci_buku%";
+                                    }
+                                    $sql_b .= " ORDER BY `b`.`judul`"; 
                                     $query_jum = mysqli_query($koneksi, $sql_b);
                                     $jum_data = mysqli_num_rows($query_jum);
                                     $jum_halaman = ceil($jum_data/$batas);
@@ -51,12 +68,12 @@
                                     if($halaman!=1){
                                         echo "
                                             <li class='page-item'>
-                                               <a class='page-link'href='index.php?include=daftar-buku-tag&halaman=1'>First</a>
+                                               <a class='page-link'href='index.php?include=cari-buku&halaman=1'>First</a>
                                             </li>
                                             ";
                                             echo "
                                                 <li class='page-item'>
-                                                    <a class='page-link'href='index.php?include=daftar-buku-tag&halaman=$sebelum'>«</a>
+                                                    <a class='page-link'href='index.php?include=cari-buku&halaman=$sebelum'>«</a>
                                                  </li>
                                             ";
                                     }
@@ -65,7 +82,7 @@
                                                 if($i!=$halaman){
                                                     echo "
                                                         <li class='page-item'>
-                                                            <a class='page-link' href='index.php?include=daftar-buku-tag&halaman=$i'>$i</a>
+                                                            <a class='page-link' href='index.php?include=cari-buku&halaman=$i'>$i</a>
                                                         </li>
                                                     ";
                                                 }else{
@@ -80,11 +97,11 @@
                                         if($halaman!=$jum_halaman){
                                             echo "
                                             <li class='page-item'>
-                                            <a class='page-link' href='index.php?include=daftar-buku-tag&halaman=$setelah'>
+                                            <a class='page-link' href='index.php?include=cari-buku&halaman=$setelah'>
                                             »</a></li>
                                             ";
                                             echo "
-                                            <li class='page-item'><a class='page-link' href='index.php?include=daftar-buku-tag&halaman=$jum_halaman'>Last</a></li>
+                                            <li class='page-item'><a class='page-link' href='index.php?include=cari-buku&halaman=$jum_halaman'>Last</a></li>
                                             ";
                                         }
                                     }
@@ -93,3 +110,4 @@
         </ul>
     </nav>
 </div>
+<?php } ?>

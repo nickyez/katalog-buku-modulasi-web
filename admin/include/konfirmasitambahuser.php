@@ -13,14 +13,13 @@
             header("Location:index.php?include=tambah-user&notif=tambahkosong&jenis=username");
         }else if(empty($password)){
             header("Location:index.php?include=tambah-user&notif=tambahkosong&jenis=password");
+        }else if($_FILES['foto']['name'] == ""){
+            header("Location:index.php?include=tambah-user&notif=tambahkosong&jenis=foto");
         }else{
             $lokasi_file = $_FILES['foto']['tmp_name'];
             $nama_file = $_FILES['foto']['name'];
             $direktori = 'foto/'.$nama_file;
             if(move_uploaded_file($lokasi_file, $direktori)){
-                if(!empty($foto)){
-                    unlink("foto/$foto");
-                }
                 $sql = "INSERT INTO `user` (`nama`,`email`,`username`,`password`,`level`,`foto`) values ('$nama','$email','$username',MD5('$password'),'$level','$nama_file')";
                 mysqli_query($koneksi, $sql);
             }else{
@@ -29,7 +28,5 @@
             }
             header("Location:index.php?include=user&notif=tambahberhasil");
         }
-    }else{
-        echo "tambah gagal";
     }
 ?>
