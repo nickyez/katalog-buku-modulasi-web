@@ -31,6 +31,8 @@
                 include('include/daftarblog.php');
             }elseif($include == "daftar-blog-kategori"){
                 include('include/daftarblog.php');
+            }elseif($include == "daftar-blog-penulis"){
+                include('include/daftarblog.php');
             }elseif($include == "contact-us"){
                 include('include/contactus.php');
             }elseif($include="cari-buku"){

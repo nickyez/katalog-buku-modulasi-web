@@ -8,13 +8,18 @@
 
         <div class="collapse navbar-collapse" id="navbarsExample07">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item" id="home">
+                <?php 
+                    if(isset($_GET['include'])){
+                        $include = $_GET['include'];
+                    }
+                ?>
+                <li class="nav-item <?php if(!isset($include)){ echo "active";} ?>" id="home">
                     <a class="nav-link"  href="index.php">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item" id="aboutus">
+                <li class="nav-item <?php if(isset($_GET['include'])){if($include == 'about-us'){ echo "active";}} ?>" id="aboutus">
                     <a class="nav-link" href="index.php?include=about-us">About Us</a>
                 </li>
-                <li class="nav-item dropdown" id="kategori">
+                <li class="nav-item dropdown <?php if(isset($_GET['include'])){if($include == 'daftar-buku-kategori' or $include == 'daftar-buku-tag'){ echo "active";}} ?>" id="kategori">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">Kategori</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown07">
@@ -29,13 +34,15 @@
                         <a class="dropdown-item" href="index.php?include=daftar-buku-kategori&data=<?php echo $id_kat; ?>"><?php echo $nama_kat; ?></a>
                         <?php } ?>
                     </div>
+                    
                 </li>
-                <li class="nav-item" id="blog">
+                <li class="nav-item <?php if(isset($_GET['include'])){if($include == 'blog' || $include == 'daftar-blog-arsip' || $include == 'daftar-blog-kategori' || $include == 'daftar-blog-penulis'){ echo "active";}} ?>" id="blog">
                     <a class="nav-link" href="index.php?include=blog">Blog</a>
                 </li>
-                <li class="nav-item" id="contactus">
+                <li class="nav-item <?php if(isset($_GET['include'])){if($include == 'contact-us'){ echo "active";}} ?>" id="contactus">
                     <a class="nav-link" href="index.php?include=contact-us">Contact Us</a>
                 </li>
+                
             </ul>
             <form class="form-inline mt-2 mt-md-0" action="index.php?include=cari-buku" method="post">
                 <input class="form-control mr-sm-2" type="text" name="katakunci" placeholder="Search" aria-label="Search">
