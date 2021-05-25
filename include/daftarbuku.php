@@ -36,7 +36,13 @@
                 }
             ?>
             <h2 class="text-primary">
-                <?php if($include=='daftar-buku-kategori'){ echo "Categories : $nama";}elseif($include=='daftar-buku-tag'){ echo "Tag : $nama";}elseif($include=='cari-buku'){ echo "Hasil Pencarian"; } ?></h2><br><br>
+                <?php if($include=='daftar-buku-kategori'){
+                            echo "Categories : $nama";
+                        }elseif($include=='daftar-buku-tag'){
+                             echo "Tag : $nama";
+                        }elseif($include=='cari-buku'){
+                            echo "Hasil Pencarian"; 
+                        } ?></h2><br><br>
             <div class="row">
                 <div class="col-md-9 katalog-main">
                     <div class="row">

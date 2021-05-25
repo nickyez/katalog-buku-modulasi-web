@@ -34,8 +34,7 @@
                         }
                     ?>
                         <tr>
-                            <td width="40%" rowspan="6"><img src="admin/cover/<?php echo $cover; ?>" class="img-fluid"
-                                    alt="Books Collection" title="Books"></td>
+                            <td width="40%" rowspan="6"><img src="admin/cover/<?php echo $cover; ?>" class="img-fluid" alt="Books Collection" title="Books"></td>
                             <td colspan="2">
                                 <h4><?php echo $judul_buku; ?></h4>
                             </td>
@@ -63,15 +62,10 @@
                                   if(!empty($array_tag)){
                                     $jumlah_tag = count($array_tag);
                                     for($i=0;$i<$jumlah_tag;$i++){
-                                    if($i==($jumlah_tag-1)){ ?>
-                                    <a href="index.php?include=daftar-buku-tag&
-                                    <?php echo $array_idtag[$i];?>">
-                                    <?php echo $array_tag[$i];?></a>
-                                    <?php
-                                    }else{ ?>
-                                    <a href="index.php?include=daftar-buku-tag&
-                                    <?php echo $array_idtag[$i];?>">
-                                    <?php echo $array_tag[$i];?></a>,
+                                        if($i==($jumlah_tag-1)){ ?>
+                                            <a href="index.php?include=daftar-buku-tag&data=<?php echo $array_idtag[$i];?>"><?php echo $array_tag[$i];?></a><?php
+                                        }else{ ?>
+                                            <a href="index.php?include=daftar-buku-tag&data=<?php echo $array_idtag[$i];?>"><?php echo $array_tag[$i];?></a>,
                                     <?php 
                                     }
                                     ?>

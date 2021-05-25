@@ -13,7 +13,7 @@
                         $include = $_GET['include'];
                     }
                 ?>
-                <li class="nav-item <?php if(!isset($include)){ echo "active";} ?>" id="home">
+                <li class="nav-item <?php if(!isset($_GET['include'])){ echo "active";} ?>" id="home">
                     <a class="nav-link"  href="index.php">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item <?php if(isset($_GET['include'])){if($include == 'about-us'){ echo "active";}} ?>" id="aboutus">
